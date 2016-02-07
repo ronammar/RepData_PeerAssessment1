@@ -130,11 +130,56 @@ We're going to impute the values that are missing using the suggested method of 
 Since `allNA` equals ``r allNA``, we can use this mean activity strategy for imputation.
 
 ```{r}
+  imputedActivty <- activityWithMissing %>%
+    filter(is.na(steps)) %>%
+    left_join(averageWithMissingPattern, by="interval") %>%
+    select(-steps) %>%
+    dplyr::rename(steps=mean_steps)
+  
+  # Add activity data and rearrange
+  imputedActivty <- activity %>%
+    bind_rows(imputedActivty) %>%
+    arrange(date, interval) %>%
+    mutate(type="imputed")
 ```
 
-## Discussion
+Now, let's see how the imputed activity differs from the original activity
 
-Brief summary of analysis and results followed by an interpretation/discussion of these results.
+```{r}
+  comparisonActivity <- activity %>%
+    arrange(date, interval) %>%  # ensure same order
+    mutate(type="original") %>%
+    bind_rows(imputedActivty)
+  
+  ggplot(comparisonActivity, aes(x=date, y=steps)) +
+    facet_grid(type ~ .) +
+    geom_bar(stat="identity") + 
+    theme_bw() + 
+    theme(axis.text.x=element_text(angle=90)) +
+    labs(y="steps/day")
+  
+  averagesOriginal <- comparisonActivity %>%
+    filter(type == "original") %>%
+    group_by(date) %>%
+    summarise(mean_steps=mean(steps),
+              median_steps=median(steps))
+  
+  averagesImputed <- comparisonActivity %>%
+    filter(type == "imputed") %>%
+    group_by(date) %>%
+    summarise(imputed_mean_steps=mean(steps),
+              imputed_median_steps=median(steps))
+  
+  averages <- left_join(averagesImputed, averagesOriginal, by="date")
+  averages
+```
+
+By imputing the activity data, it looks like we can generate rough estimates for activity on days with no activity at all. These numbers appear to be in line with the general activity profile, as plotted in the histograms.
+
+### Are there differences in activity patterns between weekdays and weekends?
+
+
+
 
 ------
 
