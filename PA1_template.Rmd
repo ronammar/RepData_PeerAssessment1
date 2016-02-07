@@ -204,7 +204,9 @@ By imputing the activity data, it looks like we can generate rough estimates for
     labs(y="mean(steps)/interval, summarised across days of this type")
 ```
 
-On average, looks like this dude has similar activity on weekdays and weekends, except that he/she starts that activity a little later on the weekend. Probably because he gets up early on weekdays to go to work as a  code monkey.
+On average, looks like this dude has similar activity on weekdays and weekends, except that he/she starts that activity a little later on the weekend. Probably because he/she gets up early on weekdays to go to work as a code monkey.
+
+[](raging_code_monkey_600.jpg)
 
 ------
 
