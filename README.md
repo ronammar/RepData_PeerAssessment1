@@ -1,6 +1,16 @@
 ## *This is my solution for the Coursera Reproducible Research project #1*
 
-To render this analysis into html (and the `.md` file that is auto-generated from the `.Rmd`) do the following:
+If you want the tables to render nicely, use `printr`:
+
+```r
+install.packages(
+  'printr',
+  type = 'source',
+  repos = c('http://yihui.name/xran', 'http://cran.rstudio.com')
+)
+```
+
+Then, to render this analysis into html (and the `.md` file that is auto-generated from the `.Rmd`) do the following:
 
 ```r
 setwd("<DIRECTORY TO WHICH THIS REPO HAS BEEN CLONED>")
