@@ -1,4 +1,12 @@
-## This is my solution for the Coursera Reproducible Research project #1
+## *This is my solution for the Coursera Reproducible Research project #1*
+
+To render this analysis into html (and the `.md` file that is auto-generated from the `.Rmd`) do the following:
+
+```r
+setwd("<DIRECTORY TO WHICH THIS REPO HAS BEEN CLONED>")
+library(rmarkdown)
+rmarkdown::render("PA1_template.Rmd")
+```
 
 ---
 
