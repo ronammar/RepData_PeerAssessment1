@@ -79,9 +79,7 @@ The purpose of this analysis is to:
   averages
 ```
 
-It would appear that for most of the day, according to each of the measured intervals, this individual is not taking any steps, which is why the median steps is 0 for each day. This is explained further in the next section.
-
-### What is the average daily activity pattern?
+It would appear that for most of the day, according to each of the measured intervals, this individual is not taking any steps, which is why the median steps is 0 for each day.
 
 For example, if we just look at a few individual days:
 
@@ -96,9 +94,43 @@ For example, if we just look at a few individual days:
     theme_bw()
 ```
 
-### Subsection #3
+This is explained further in the next section.
 
-Methods and results go here for analysis part 3.
+### What is the average daily activity pattern?
+
+```{r}
+  averagePattern <- activity %>%
+    group_by(interval) %>%
+    summarise(mean_steps=mean(steps))
+  
+  ggplot(averagePattern, aes(x=interval, y=mean_steps)) +
+    geom_line(size=1) +
+    theme_bw() +
+    labs(y="mean(steps)/interval, summarised across all days")
+```
+
+This individual does most of their activity at 5 minute interval #`r averagePattern$interval[which(averagePattern$mean_steps == max(averagePattern$mean_steps))]`.
+
+### Imputing missing values
+
+There are `r nrow(activityWithMissing) - nrow(activity)` missing values in the dataset.
+
+We're going to impute the values that are missing using the suggested method of filling missing values with the mean across all days. However, before proceeding with this method, I need to ensure that there is no interval that is missing for *all* dates. If there is, we'd have to switch to a daily mean strategy.
+
+```{r}
+  # If any NaN values remain after averaging, that means a single interval
+  # contained all NAs.
+  averageWithMissingPattern <- activityWithMissing %>%
+    group_by(interval) %>%
+    summarise(mean_steps=mean(steps, na.rm=TRUE))
+  
+  allNA <- any(is.nan(averageWithMissingPattern$mean_steps))
+```
+
+Since `allNA` equals ``r allNA``, we can use this mean activity strategy for imputation.
+
+```{r}
+```
 
 ## Discussion
 
