@@ -1,0 +1,87 @@
+---
+title: Coursera - Reproducible Research
+subtitle: Assignment 1
+author: Ron Ammar
+output: 
+  html_document:
+    keep_md: true
+    toc: true
+    toc_depth: 4
+---
+
+```{r global_options, include=FALSE}
+  # use include=FALSE to have the chunk evaluated, but neither the code nor its output displayed.
+  knitr::opts_chunk$set(echo=TRUE, message=FALSE, fig.align="center",
+                        fig.width=12, fig.height=8)
+```
+
+```{r}
+  # Clear the current session, to avoid errors from persisting data structures
+  rm(list=ls())
+
+  # Free up memory by forcing garbage collection
+  invisible(gc())
+
+  # Pretty printing in knitr
+  library(printr)
+
+  # Manually set the seed to an arbitrary number for consistency in reports
+  set.seed(1234)
+
+  # Do not convert character vectors to factors unless explicitly indicated
+  options(stringsAsFactors=FALSE)
+
+  startTime <- Sys.time()
+```
+
+\newpage
+
+## Summary
+
+Executive summary/abstract go here. Briefly describe your problem, methods and results. Suggest future directions if applicable.
+
+## Background
+
+It is now possible to collect a large amount of data about personal movement using activity monitoring devices such as a Fitbit, Nike Fuelband, or Jawbone Up. These type of devices are part of the "quantified self" movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. But these data remain under-utilized both because the raw data are hard to obtain and there is a lack of statistical methods and software for processing and interpreting the data.
+
+This assignment makes use of data from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.
+
+## Purpose
+
+The purpose of this study is to ____ .
+
+\newpage
+
+## Analysis
+
+**Analysis Date:** `r format(Sys.time(), "%k:%M:%S, %A, %B %d, %Y")` 
+
+### Subsection #1
+
+Methods and results go here for analysis part 1.
+
+### Subsection #2
+
+Methods and results go here for analysis part 2.
+
+### Subsection #3
+
+Methods and results go here for analysis part 3.
+
+## Discussion
+
+Brief summary of analysis and results followed by an interpretation/discussion of these results.
+
+------
+
+\newpage
+
+## System Information
+
+***Time required to process this report:*** *`r format(Sys.time() - startTime)`*
+
+***R session information:***
+
+```{r, echo_session_info}
+  sessionInfo()
+```
