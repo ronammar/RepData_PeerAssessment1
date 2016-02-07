@@ -12,7 +12,8 @@ output:
 ```{r global_options, include=FALSE}
   # use include=FALSE to have the chunk evaluated, but neither the code nor its output displayed.
   knitr::opts_chunk$set(echo=TRUE, message=FALSE, fig.align="center",
-                        fig.width=12, fig.height=8)
+                        fig.width=12, fig.height=8, fig.path='figure/',
+                        dev='png')
 ```
 
 ```{r}
@@ -130,15 +131,15 @@ We're going to impute the values that are missing using the suggested method of 
 Since `allNA` equals ``r allNA``, we can use this mean activity strategy for imputation.
 
 ```{r}
-  imputedActivty <- activityWithMissing %>%
+  imputedActivity <- activityWithMissing %>%
     filter(is.na(steps)) %>%
     left_join(averageWithMissingPattern, by="interval") %>%
     select(-steps) %>%
     dplyr::rename(steps=mean_steps)
   
   # Add activity data and rearrange
-  imputedActivty <- activity %>%
-    bind_rows(imputedActivty) %>%
+  imputedActivity <- activity %>%
+    bind_rows(imputedActivity) %>%
     arrange(date, interval) %>%
     mutate(type="imputed")
 ```
@@ -149,7 +150,7 @@ Now, let's see how the imputed activity differs from the original activity
   comparisonActivity <- activity %>%
     arrange(date, interval) %>%  # ensure same order
     mutate(type="original") %>%
-    bind_rows(imputedActivty)
+    bind_rows(imputedActivity)
   
   ggplot(comparisonActivity, aes(x=date, y=steps)) +
     facet_grid(type ~ .) +
@@ -178,8 +179,32 @@ By imputing the activity data, it looks like we can generate rough estimates for
 
 ### Are there differences in activity patterns between weekdays and weekends?
 
+```{r}
+  # Get the weekdays from the dates and then classify them as weekends or
+  # weekdays
+  convertDay <- function(date) {
+    day_type <- ifelse(weekdays(date) %in% c("Saturday", "Sunday"),
+                       "weekend",
+                       "weekday")
+    return(day_type)
+  }
+  
+  imputedActivity <- mutate(imputedActivity, day_type=convertDay(date))
+  
+  # Plot activity faceted by day type
+  averageImputedPattern <- imputedActivity %>%
+    group_by(interval, day_type) %>%
+    summarise(mean_steps=mean(steps))
+  
+  ggplot(averageImputedPattern,
+         aes(x=interval, y=mean_steps, col=day_type)) +
+    facet_grid(day_type ~ .) +
+    geom_line(size=1) +
+    theme_bw() +
+    labs(y="mean(steps)/interval, summarised across days of this type")
+```
 
-
+On average, looks like this dude has similar activity on weekdays and weekends, except that he/she starts that activity a little later on the weekend. Probably because he gets up early on weekdays to go to work as a  code monkey.
 
 ------
 
