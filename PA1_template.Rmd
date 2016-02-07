@@ -34,12 +34,6 @@ output:
   startTime <- Sys.time()
 ```
 
-\newpage
-
-## Summary
-
-Executive summary/abstract go here. Briefly describe your problem, methods and results. Suggest future directions if applicable.
-
 ## Background
 
 It is now possible to collect a large amount of data about personal movement using activity monitoring devices such as a Fitbit, Nike Fuelband, or Jawbone Up. These type of devices are part of the "quantified self" movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. But these data remain under-utilized both because the raw data are hard to obtain and there is a lack of statistical methods and software for processing and interpreting the data.
@@ -48,21 +42,59 @@ This assignment makes use of data from a personal activity monitoring device. Th
 
 ## Purpose
 
-The purpose of this study is to ____ .
+The purpose of this analysis is to:
 
-\newpage
+1. Complete the Reproducible Research course project #1.
+2. Figure out how active this anonymous dude is.
 
 ## Analysis
 
 **Analysis Date:** `r format(Sys.time(), "%k:%M:%S, %A, %B %d, %Y")` 
 
-### Subsection #1
+```{r}
+  library(dplyr)
+  library(ggplot2)
+  
+  activity <- read.csv("activity.csv")
+  activity$date <- as.Date(activity$date)  # coerce to Date
+  
+  activityWithMissing <- activity
+  # Remove dates with missing step data
+  activity <- filter(activity, !is.na(steps))
+```
 
-Methods and results go here for analysis part 1.
+### What is mean total number of steps taken per day?
 
-### Subsection #2
+```{r}
+  ggplot(activity, aes(x=date, y=steps)) +
+    geom_bar(stat="identity") + 
+    theme_bw() + 
+    theme(axis.text.x=element_text(angle=90)) +
+    labs(y="steps/day")
+  
+  averages <- activity %>%
+    group_by(date) %>%
+    summarise(mean_steps=mean(steps),
+              median_steps=median(steps))
+  averages
+```
 
-Methods and results go here for analysis part 2.
+It would appear that for most of the day, according to each of the measured intervals, this individual is not taking any steps, which is why the median steps is 0 for each day. This is explained further in the next section.
+
+### What is the average daily activity pattern?
+
+For example, if we just look at a few individual days:
+
+```{r}
+  threeDays <- activity %>%
+    filter(date %in% sample(averages$date, 3)) %>%
+    arrange(date)
+  
+  ggplot(threeDays, aes(x=interval, y=steps, col=date)) +
+    facet_grid(date ~ .) +
+    geom_line(size=1) +
+    theme_bw()
+```
 
 ### Subsection #3
 
@@ -73,8 +105,6 @@ Methods and results go here for analysis part 3.
 Brief summary of analysis and results followed by an interpretation/discussion of these results.
 
 ------
-
-\newpage
 
 ## System Information
 
