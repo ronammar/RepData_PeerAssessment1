@@ -206,7 +206,7 @@ By imputing the activity data, it looks like we can generate rough estimates for
 
 On average, looks like this dude has similar activity on weekdays and weekends, except that he/she starts that activity a little later on the weekend. Probably because he/she gets up early on weekdays to go to work as a code monkey.
 
-[](raging_code_monkey_600.jpg)
+![](raging_code_monkey_600.jpg)
 
 ------
 

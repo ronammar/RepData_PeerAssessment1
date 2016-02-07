@@ -38,7 +38,7 @@ The purpose of this analysis is to:
 
 ## Analysis
 
-**Analysis Date:** 16:45:59, Sunday, February 07, 2016 
+**Analysis Date:** 16:54:44, Sunday, February 07, 2016 
 
 
 ```r
@@ -340,13 +340,13 @@ By imputing the activity data, it looks like we can generate rough estimates for
 
 On average, looks like this dude has similar activity on weekdays and weekends, except that he/she starts that activity a little later on the weekend. Probably because he/she gets up early on weekdays to go to work as a code monkey.
 
-[](raging_code_monkey_600.jpg)
+![](raging_code_monkey_600.jpg)
 
 ------
 
 ## System Information
 
-***Time required to process this report:*** *4.096935 secs*
+***Time required to process this report:*** *4.014824 secs*
 
 ***R session information:***
 
