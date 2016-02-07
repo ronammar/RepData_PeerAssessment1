@@ -1,3 +1,7 @@
+## This is my solution for the Coursera Reproducible Research project #1
+
+---
+
 ## Introduction
 
 It is now possible to collect a large amount of data about personal
